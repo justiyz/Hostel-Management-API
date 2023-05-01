@@ -3,18 +3,23 @@ import { Injectable } from "@nestjs/common/decorators";
 import {InjectModel} from '@nestjs/mongoose'
 import { Model } from "mongoose";
 import { Student } from "./student.model";
+import { CreateStudentDto } from "./studentDto";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class StudentService{
 
     constructor(@InjectModel('Student') private readonly StudentModel: Model<Student>){}
 
-    async createStudent(fullName: string, age: number, dept: string, password: string) {
+    async createStudent(dto: CreateStudentDto) {
+        const salt = await bcrypt.genSalt();
+        const hashPassword = await bcrypt.hash(dto.password, salt);
+
         const newStudent = new this.StudentModel({
-            fullName: fullName,
-            age: age,
-            department: dept,
-            password: password,
+            fullName: dto.fullName,
+            age: dto.age,
+            department: dto.department,
+            password: hashPassword,
         
         });
         const result = await newStudent.save();

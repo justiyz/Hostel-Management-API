@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from "mongoose";
 import { RoomService } from "src/room/room.service";
 import { RoomAllocationDto } from "src/room/roomAllocationDto";
+import { RemoveStudentDto } from "src/student/removeStudentDto";
 import { Student } from "src/student/student.model";
 import { StudentService } from "src/student/student.service";
 import { Hostel } from "./hostel.model";
@@ -87,10 +88,12 @@ export class HostelService{
         return students;
     }
 
-    async removeStudentFromAnHostel(dto: RoomAllocationDto) {
+    async removeStudentFromAnHostel(dto: RemoveStudentDto) {
         const existingStudent = await this.studentService.findStudentById(dto.studentId);
-        const existingHostel = await this.findHostelById(dto.hostelId);
-        const existingRooms =  await this.roomService.findRoomsByHostelId(existingHostel.id);
+        const existingHostel = await this.findHostelById(dto.oldHostelId);
+        const existingRooms = await this.roomService.findRoomsByHostelId(existingHostel.id);
+        
+        //STOPPED HERE
 
     }
 

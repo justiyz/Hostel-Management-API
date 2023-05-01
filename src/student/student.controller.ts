@@ -2,6 +2,7 @@ import { Controller, Post, Body, HttpStatus, Get } from "@nestjs/common";
 import { Param } from "@nestjs/common/decorators";
 import { async } from "rxjs";
 import { StudentService } from "./student.service";
+import { CreateStudentDto } from "./studentDto";
 
 
 
@@ -11,8 +12,8 @@ export class StudentController{
     constructor(private readonly studentService: StudentService){}
 
     @Post()
-    async createStudent(@Body() studentDto: {fullName: string, age: number, department: string, password: string }){
-        await this.studentService.createStudent(studentDto.fullName, studentDto.age, studentDto.department, studentDto.password)
+    async createStudent(@Body() dto: CreateStudentDto){
+        await this.studentService.createStudent(dto)
         return HttpStatus.OK;
     }
 
