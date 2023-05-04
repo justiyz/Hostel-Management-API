@@ -67,7 +67,7 @@ export class HostelService{
             if (room.currentNoOfOccupants < room.maxNoOfOccupantsPerRoom) {
 
                 room.students.push(existingStudent);
-                room.currentNoOfOccupants = room.currentNoOfOccupants + 1;
+                room.currentNoOfOccupants += 1;
                 this.roomService.save(room); 
                 return false;
             }   
@@ -80,7 +80,6 @@ export class HostelService{
             throw new NotFoundException('Hostel does not exist')
         }
         const students: Student [] = [];
-        let index = 0;
         const existingRooms = await this.roomService.findRoomsByHostelId(hostelId);
         existingRooms.forEach(e => {
             students.push(...e.students);
@@ -88,12 +87,29 @@ export class HostelService{
         return students;
     }
 
-    async removeStudentFromAnHostel(dto: RemoveStudentDto) {
+    async removeStudentFromAnHostel(dto: RoomAllocationDto) {
         const existingStudent = await this.studentService.findStudentById(dto.studentId);
-        const existingHostel = await this.findHostelById(dto.oldHostelId);
+        const existingHostel = await this.findHostelById(dto.hostelId);
         const existingRooms = await this.roomService.findRoomsByHostelId(existingHostel.id);
+
+        for (let room of existingRooms) {
+            for (let student of room.students) {
+                    if (JSON.stringify(student) === JSON.stringify(existingStudent)) { 
+                        const index = room.students.indexOf(student);
+                        room.students.splice(index, 1);
+                        room.currentNoOfOccupants -= 1;
+                        this.roomService.save(room);                        
+                        
+                        if (room.currentNoOfOccupants < room.maxNoOfOccupantsPerRoom) { 
+                            existingHostel.isAvailable = true;
+                            existingHostel.isTaken = false;
+                            existingHostel.save();
+                        }
+                }
+            }
+        }
+
         
-        //STOPPED HERE
 
     }
 

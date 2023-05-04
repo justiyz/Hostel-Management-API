@@ -12,7 +12,7 @@ export const HostelSchema = new mongoose.Schema({
 }, {timestamps: {createdAt: 'createdDate', updatedAt: 'modifiedDate'}});
 
 
-export interface Hostel{ 
+export interface Hostel extends mongoose.Document{ 
     id: string,
     name: string,
     location: string,

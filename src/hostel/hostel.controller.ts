@@ -31,4 +31,9 @@ export class HostelController{
         return await this.hostelService.findAllStudentsAllocatedToAnHostel(hostelId);
     }
 
+    @Patch('remove-student')
+    async removeStudentFromHostel(@Body() dto: RoomAllocationDto) {
+        return await this.hostelService.removeStudentFromAnHostel(dto);
+    }
+
  }
