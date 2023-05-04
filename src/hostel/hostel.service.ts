@@ -113,8 +113,6 @@ export class HostelService{
 
     }
 
-
-
     private async hostelExists(id: string): Promise<boolean>{
         if (await this.HostelModel.exists({ id })) {
             return true;

@@ -36,4 +36,10 @@ export class RoomService{
     async findRoomsByHostelId(hostelId: string) {
         return await this.RoomModel.find({ hostelId }).exec();
     }
+
+    public async roomExists(id: string): Promise<boolean>{
+        if (await this.RoomModel.exists({ id })) {
+            return true;
+        } 
+    }
 }
