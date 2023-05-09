@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from "mongoose";
 import { RoomService } from "src/room/room.service";
-import { RoomAllocationDto } from "src/room/roomAllocationDto";
+import { RoomAllocationDto } from "src/room/room.allocation.dto";
 import { RemoveStudentDto } from "src/student/removeStudentDto";
 import { Student } from "src/student/student.model";
 import { StudentService } from "src/student/student.service";
@@ -108,8 +108,6 @@ export class HostelService{
                 }
             }
         }
-
-        
 
     }
 

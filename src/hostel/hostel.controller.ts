@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Post } from "@nestjs/common";
 import { Param, Patch, Query,  } from "@nestjs/common/decorators";
-import { RoomAllocationDto } from "src/room/roomAllocationDto";
+import { RoomAllocationDto } from "src/room/room.allocation.dto";
 import { HostelService } from "./hostel.service";
 import { HostelDto } from "./hostelDto";
 
